@@ -6,9 +6,27 @@ const sendBtn = document.getElementById("sendBtn");
 const connection = document.getElementById("connection");
 const result = document.getElementById("result");
 let connected = false;
+const remoteButtons = ["prevBtn", "nextBtn", "clearBtn"].map(id => document.getElementById(id));
+
 socket.on("connect", () => socket.emit("join-room", {room, key}));
-socket.on("joined-room", () => { connected = true; connection.textContent = "Tahtaya bağlandınız. Dosya seçebilirsiniz."; sendBtn.disabled = !input.files.length; });
+socket.on("joined-room", () => {
+  connected = true;
+  connection.textContent = "Tahtaya bağlandınız. Kumanda ve dosya gönderimi hazır.";
+  sendBtn.disabled = !input.files.length;
+  remoteButtons.forEach(button => button.disabled = false);
+});
 socket.on("join-error", msg => { connection.textContent = msg; connection.style.color = "#b33"; });
+
+function control(action) {
+  if (!connected) return;
+  socket.emit("board-action", {room, key, action});
+}
+document.getElementById("prevBtn").onclick = () => control("prev");
+document.getElementById("nextBtn").onclick = () => control("next");
+document.getElementById("clearBtn").onclick = () => {
+  if (confirm("Tahtadaki açık dosya kapatılsın mı?")) control("clear");
+};
+
 input.addEventListener("change", () => {
   const file = input.files[0];
   document.getElementById("fileName").textContent = file ? `${file.name} (${(file.size/1024/1024).toFixed(1)} MB)` : "Henüz dosya seçilmedi";
