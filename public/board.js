@@ -18,11 +18,23 @@ socket.on("board-created", async data => {
 });
 socket.on("phone-connected", () => $("status").textContent = "Telefon bağlandı. Dosya gönderilmeye hazır.");
 socket.on("file-ready", showFile);
-socket.on("remote-action", ({action}) => {
-  if (action === "next") changePage(1);
-  if (action === "prev") changePage(-1);
-  if (action === "fullscreen") toggleFullscreen();
-  if (action === "clear") clearViewer();
+socket.on("remote-action", async ({ action } = {}, acknowledge) => {
+  const reply = payload => {
+    if (typeof acknowledge === "function") acknowledge(payload);
+  };
+  try {
+    if (action === "next" || action === "prev") {
+      const result = await changePage(action === "next" ? 1 : -1);
+      return reply(result);
+    }
+    if (action === "clear") {
+      clearViewer();
+      return reply({ ok: true, message: "Tahta temizlendi." });
+    }
+    return reply({ ok: false, error: "Bilinmeyen komut." });
+  } catch (error) {
+    return reply({ ok: false, error: error.message || "Tahta komutu uygulayamadı." });
+  }
 });
 function clearViewer() {
   currentFile = null; pdfDoc = null;
@@ -83,7 +95,15 @@ async function renderPage(n) {
     if (pendingPage !== null) { const p = pendingPage; pendingPage = null; renderPage(p); }
   }
 }
-function changePage(delta) { if (pdfDoc) renderPage(Math.max(1, Math.min(pdfDoc.numPages, pageNum + delta))); }
+async function changePage(delta) {
+  if (!pdfDoc) return { ok: false, error: "Tahtada açık bir PDF bulunamadı." };
+  const target = Math.max(1, Math.min(pdfDoc.numPages, pageNum + delta));
+  if (target === pageNum) {
+    return { ok: true, message: target === 1 ? "İlk sayfadasınız." : "Son sayfadasınız.", page: pageNum, total: pdfDoc.numPages };
+  }
+  await renderPage(target);
+  return { ok: true, message: `Sayfa ${pageNum} / ${pdfDoc.numPages}`, page: pageNum, total: pdfDoc.numPages };
+}
 $("prevBtn").onclick = () => changePage(-1);
 $("nextBtn").onclick = () => changePage(1);
 async function toggleFullscreen() {

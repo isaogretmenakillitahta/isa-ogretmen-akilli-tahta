@@ -19,7 +19,22 @@ socket.on("join-error", msg => { connection.textContent = msg; connection.style.
 
 function control(action) {
   if (!connected) return;
-  socket.emit("board-action", {room, key, action});
+  result.textContent = "Komut tahtaya gönderiliyor…";
+  result.style.color = "#53657d";
+  socket.timeout(7000).emit("board-action", {room, key, action}, (err, response) => {
+    if (err) {
+      result.textContent = "Tahtadan yanıt alınamadı. Tahta sayfasını yenileyip QR kodu yeniden okutun.";
+      result.style.color = "#b33";
+      return;
+    }
+    if (!response || !response.ok) {
+      result.textContent = response?.error || "Komut uygulanamadı.";
+      result.style.color = "#b33";
+      return;
+    }
+    result.textContent = response.message || "✓ Komut tahtada uygulandı.";
+    result.style.color = "#16835e";
+  });
 }
 document.getElementById("prevBtn").onclick = () => control("prev");
 document.getElementById("nextBtn").onclick = () => control("next");
