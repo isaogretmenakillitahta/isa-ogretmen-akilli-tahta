@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10233f"><title>Dosya Gönder • İsa Öğretmen Akıllı Tahta</title><link rel="stylesheet" href="/style.css"></head>
+<body class="phone-page"><main class="phone-card"><div class="brand-mark">İA</div><span class="eyebrow">AKILLI TAHTA BAĞLANTISI</span><h1>Dosyanızı tahtaya gönderin</h1><p class="muted">Bağlantı kurulduğunda dosyanız akıllı tahtada görüntülenir.</p>
+<div id="connection" class="status">Tahtaya bağlanılıyor…</div>
+<label class="file-picker" for="fileInput"><span class="upload-icon">↑</span><strong>Dosya seç</strong><small>PDF, fotoğraf, video, Word veya PowerPoint<br>En fazla 100 MB</small></label>
+<input id="fileInput" type="file" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.mp4,.webm,.mov,.ppt,.pptx,.doc,.docx">
+<div class="file-name" id="fileName">Henüz dosya seçilmedi</div>
+<button id="sendBtn" class="primary" disabled>Tahtaya gönder</button><div id="result" class="result"></div>
+<div class="privacy">Dosyalar geçici olarak saklanır ve yaklaşık 2 saat içinde otomatik silinir. Kişisel veya hassas dosyalar göndermeyin.</div>
+</main><script src="/socket.io/socket.io.js"></script><script src="/join.js"></script></body></html>

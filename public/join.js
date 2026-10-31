@@ -1,0 +1,32 @@
+const params = new URLSearchParams(location.search);
+const room = params.get("room"), key = params.get("key");
+const socket = io();
+const input = document.getElementById("fileInput");
+const sendBtn = document.getElementById("sendBtn");
+const connection = document.getElementById("connection");
+const result = document.getElementById("result");
+let connected = false;
+socket.on("connect", () => socket.emit("join-room", {room, key}));
+socket.on("joined-room", () => { connected = true; connection.textContent = "Tahtaya bağlandınız. Dosya seçebilirsiniz."; sendBtn.disabled = !input.files.length; });
+socket.on("join-error", msg => { connection.textContent = msg; connection.style.color = "#b33"; });
+input.addEventListener("change", () => {
+  const file = input.files[0];
+  document.getElementById("fileName").textContent = file ? `${file.name} (${(file.size/1024/1024).toFixed(1)} MB)` : "Henüz dosya seçilmedi";
+  sendBtn.disabled = !connected || !file;
+  result.textContent = "";
+});
+sendBtn.addEventListener("click", async () => {
+  const file = input.files[0];
+  if (!file || !connected) return;
+  sendBtn.disabled = true; sendBtn.textContent = "Gönderiliyor…"; result.textContent = "";
+  const body = new FormData(); body.append("file", file);
+  try {
+    const response = await fetch(`/api/upload?room=${encodeURIComponent(room)}&key=${encodeURIComponent(key)}`, {method:"POST", body});
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Gönderim başarısız.");
+    result.textContent = "✓ Dosya tahtaya gönderildi.";
+    result.style.color = "#16835e";
+  } catch (e) {
+    result.textContent = e.message; result.style.color = "#b33";
+  } finally { sendBtn.textContent = "Tahtaya gönder"; sendBtn.disabled = !connected || !input.files.length; }
+});

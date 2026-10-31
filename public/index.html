@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10233f"><title>İsa Öğretmen Akıllı Tahta</title><link rel="stylesheet" href="/style.css"></head>
+<body class="board-page">
+<header class="top"><div class="brand-mark">İA</div><div><strong>İsa Öğretmen Akıllı Tahta</strong><small>Telefonundan tahtaya, saniyeler içinde.</small></div><span class="live"><i></i> Hazır</span></header>
+<main class="board-layout">
+<section class="viewer-panel"><div class="panel-head"><div><span class="eyebrow">AKILLI TAHTA</span><h1 id="fileTitle">Paylaşım bekleniyor</h1></div><button class="ghost" id="fullscreenBtn">⛶ Tam ekran</button></div>
+<div id="viewer" class="viewer"><div class="empty-state"><div class="big-icon">▣</div><h2>Dosyanızı buraya gönderin</h2><p>Telefonunuzla sağdaki QR kodu okutun.<br>PDF, fotoğraf veya video seçin.</p></div></div>
+<div class="viewer-controls"><button id="prevBtn" disabled>← Önceki</button><span id="pageInfo">Henüz dosya yok</span><button id="nextBtn" disabled>Sonraki →</button></div>
+</section>
+<aside class="share-panel"><div class="eyebrow">TELEFONUNUZDAN BAĞLANIN</div><h2>QR kodu okutun</h2><p class="muted">Telefonunuzun kamerasını açıp kodu okutun. Aynı Wi-Fi ağı şart değildir.</p><div class="qr-wrap"><div id="qrLoading">QR hazırlanıyor…</div><img id="qrImage" alt="Telefonla bağlantı QR kodu" hidden></div>
+<div class="room-line"><span>Bağlantı kodu</span><strong id="roomCode">••••••</strong></div><div class="status" id="status">Bağlantı hazırlanıyor…</div><div class="tip">Bu ekran açık kaldığı sürece telefonunuzdan dosya gönderebilirsiniz.</div>
+</aside></main>
+<footer>İsa Öğretmen Akıllı Tahta <span>•</span> Güvenli oturum bağlantısı</footer>
+<script src="/socket.io/socket.io.js"></script><script src="/board.js"></script></body></html>
