@@ -4,11 +4,11 @@
 <header class="top"><div class="brand-mark">İA</div><div><strong>İsa Öğretmen Akıllı Tahta</strong><small>Telefonundan tahtaya, saniyeler içinde.</small></div><span class="live"><i></i> Hazır</span></header>
 <main class="board-layout">
 <section class="viewer-panel"><div class="panel-head"><div><span class="eyebrow">AKILLI TAHTA</span><h1 id="fileTitle">Paylaşım bekleniyor</h1></div><button class="ghost" id="fullscreenBtn">⛶ Tam ekran</button></div>
-<div id="viewer" class="viewer"><div class="empty-state"><div class="big-icon">▣</div><h2>Dosyanızı buraya gönderin</h2><p>Telefonunuzla sağdaki QR kodu okutun.<br>PDF, fotoğraf veya video seçin.</p></div></div>
-<div class="viewer-controls"><button id="prevBtn" disabled>← Önceki</button><span id="pageInfo">Henüz dosya yok</span><button id="nextBtn" disabled>Sonraki →</button></div>
+<div id="viewer" class="viewer"><div class="empty-state"><div class="big-icon">▣</div><h2>Dosyanızı buraya gönderin</h2><p>Telefonunuzla sağdaki QR kodu okutun.<br>PDF, fotoğraf, video, Word veya PowerPoint seçin.</p></div></div>
+<div class="viewer-controls"><button id="firstBtn" disabled>⇤ İlk</button><button id="prevBtn" disabled>← Önceki</button><span id="pageInfo">Henüz dosya yok</span><button id="nextBtn" disabled>Sonraki →</button><button id="lastBtn" disabled>Son ⇥</button></div>
 </section>
-<aside class="share-panel"><div class="eyebrow">TELEFONUNUZDAN BAĞLANIN</div><h2>QR kodu okutun</h2><p class="muted">Telefonunuzun kamerasını açıp kodu okutun. Aynı Wi-Fi ağı şart değildir.</p><div class="qr-wrap"><div id="qrLoading">QR hazırlanıyor…</div><img id="qrImage" alt="Telefonla bağlantı QR kodu" hidden></div>
-<div class="room-line"><span>Bağlantı kodu</span><strong id="roomCode">••••••</strong></div><div class="status" id="status">Bağlantı hazırlanıyor…</div><div class="tip">Bu ekran açık kaldığı sürece telefonunuzdan dosya gönderebilirsiniz.</div>
+<aside class="share-panel"><div class="eyebrow">SINIFA ÖZEL BAĞLANTI</div><h2>QR kodu okutun</h2><p class="muted">Telefonunuzun kamerasını açıp kodu okutun. Aynı Wi-Fi ağı şart değildir. QR kodunu yalnızca sınıfınızla paylaşın.</p><div class="qr-wrap"><div id="qrLoading">QR hazırlanıyor…</div><img id="qrImage" alt="Telefonla bağlantı QR kodu" hidden></div>
+<div class="room-line"><span>Sınıf bağlantı kodu</span><strong id="roomCode">••••••</strong></div><div class="status" id="status">Bağlantı hazırlanıyor…</div><div class="tip">Bu tahta oturumuna yalnızca QR kodu ve gizli bağlantı anahtarına sahip kişiler katılabilir. Oturum kapandığında bağlantı yenilenir.</div>
 </aside></main>
-<footer>İsa Öğretmen Akıllı Tahta <span>•</span> Güvenli oturum bağlantısı</footer>
+<footer>İsa Öğretmen Akıllı Tahta V3.0 <span>•</span> Sınıfa özel oturum</footer>
 <script src="/socket.io/socket.io.js"></script><script src="/board.js"></script></body></html>

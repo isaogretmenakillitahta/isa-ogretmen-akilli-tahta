@@ -1,21 +1,12 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10233f"><title>Dosya Gönder • İsa Öğretmen Akıllı Tahta</title><link rel="stylesheet" href="/style.css"></head>
-<body class="phone-page"><main class="phone-card"><div class="brand-mark">İA</div><span class="eyebrow">AKILLI TAHTA BAĞLANTISI</span><h1>İsa Öğretmen Akıllı Tahta</h1><p class="muted">Telefonunuzdan dosya gönderin ve tahtayı uzaktan yönetin.</p>
+<body class="phone-page"><main class="phone-card"><div class="brand-mark">İA</div><span class="eyebrow">SINIFA ÖZEL AKILLI TAHTA BAĞLANTISI</span><h1>İsa Öğretmen Akıllı Tahta</h1><p class="muted">Telefonunuzdan dosya gönderin, sunumu yönetin ve gönderdiğiniz dosyaları kontrol edin.</p>
 <div id="connection" class="status">Tahtaya bağlanılıyor…</div>
-
-<section class="remote-panel">
-  <h2>🎮 Sunum kumandası</h2>
-  <p class="muted">PDF açıkken sayfaları telefonunuzdan değiştirin.</p>
-  <div class="remote-grid">
-    <button class="remote-btn" id="prevBtn" disabled>←<span>Önceki</span></button>
-    <button class="remote-btn remote-next" id="nextBtn" disabled>→<span>Sonraki</span></button>
-    <button class="remote-btn remote-clear" id="clearBtn" disabled>×<span>Tahtayı temizle</span></button>
-  </div>
-</section>
-
+<section class="remote-panel"><h2>🎮 Sunum kumandası</h2><p class="muted">PDF açıkken ilk, önceki, sonraki ve son sayfaya geçin.</p><div id="pageStatus" class="page-status">Tahtadaki sayfa bilgisi bekleniyor…</div>
+<div class="remote-grid"><button class="remote-btn" id="firstBtn" disabled>⇤<span>İlk sayfa</span></button><button class="remote-btn" id="prevBtn" disabled>←<span>Önceki</span></button><button class="remote-btn remote-next" id="nextBtn" disabled>→<span>Sonraki</span></button><button class="remote-btn remote-next" id="lastBtn" disabled>⇥<span>Son sayfa</span></button><button class="remote-btn remote-clear" id="clearBtn" disabled>×<span>Tahtayı temizle</span></button></div></section>
 <label class="file-picker" for="fileInput"><span class="upload-icon">↑</span><strong>Dosya seç</strong><small>PDF, fotoğraf, video, Word veya PowerPoint<br>En fazla 100 MB</small></label>
 <input id="fileInput" type="file" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.mp4,.webm,.mov,.ppt,.pptx,.doc,.docx">
-<div class="file-name" id="fileName">Henüz dosya seçilmedi</div>
-<button id="sendBtn" class="primary" disabled>Tahtaya gönder</button><div id="result" class="result"></div>
-<div class="privacy">Dosyalar geçici olarak saklanır ve yaklaşık 2 saat içinde otomatik silinir. Kişisel veya hassas dosyalar göndermeyin.</div>
+<div class="file-name" id="fileName">Henüz dosya seçilmedi</div><button id="sendBtn" class="primary" disabled>Tahtaya gönder</button><div id="result" class="result"></div>
+<section class="file-manager"><h2>📁 Gönderdiğim dosyalar</h2><p class="muted">Bu sınıf oturumunda gönderilen dosyaları yeniden açabilir veya silebilirsiniz.</p><div id="fileList"><p class="file-empty">Henüz gönderilmiş dosya yok.</p></div></section>
+<div class="privacy">Dosyalar geçici olarak saklanır ve yaklaşık 2 saat içinde otomatik silinir. Render ücretsiz sunucusunda yeniden başlatma olduğunda dosyalar kaybolabilir. Hassas veya kişisel belgeler göndermeyin.</div>
 </main><script src="/socket.io/socket.io.js"></script><script src="/join.js"></script></body></html>
