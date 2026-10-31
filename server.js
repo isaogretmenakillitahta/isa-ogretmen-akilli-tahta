@@ -91,7 +91,7 @@ io.on("connection", socket => {
     let code;
     do { code = newCode(); } while (rooms.has(code));
     const key = newKey();
-    rooms.set(code, { code, key, boardSocket: socket.id, lastActivity: Date.now() });
+    rooms.set(code, { code, key, boardSocket: socket.id, phoneSockets: new Set(), lastActivity: Date.now() });
     socket.join(code);
     socket.emit("board-created", { code, key });
   });
@@ -100,21 +100,44 @@ io.on("connection", socket => {
     const r = roomFor(room, key);
     if (!r) return socket.emit("join-error", "Bağlantı kodu geçersiz veya oturum sona ermiş.");
     socket.join(r.code);
+    r.phoneSockets.add(socket.id);
     r.lastActivity = Date.now();
     socket.emit("joined-room", { code: r.code });
     io.to(r.code).emit("phone-connected");
   });
 
-  socket.on("board-action", ({ room, key, action } = {}) => {
+  socket.on("board-action", ({ room, key, action } = {}, acknowledge) => {
+    const reply = payload => {
+      if (typeof acknowledge === "function") acknowledge(payload);
+    };
     const r = roomFor(room, key);
-    if (!r || r.boardSocket !== socket.id) return;
-    io.to(r.code).emit("remote-action", { action });
+    const allowedActions = new Set(["next", "prev", "clear"]);
+
+    if (!r || !r.phoneSockets || !r.phoneSockets.has(socket.id)) {
+      return reply({ ok: false, error: "Telefon oturumu doğrulanamadı. QR kodu yeniden okutun." });
+    }
+    if (!allowedActions.has(action)) {
+      return reply({ ok: false, error: "Desteklenmeyen kumanda komutu." });
+    }
+    if (!r.boardSocket) {
+      return reply({ ok: false, error: "Akıllı tahta bağlantısı bulunamadı." });
+    }
+
+    r.lastActivity = Date.now();
+    io.to(r.boardSocket).timeout(6000).emit("remote-action", { action }, (err, responses) => {
+      if (err) {
+        return reply({ ok: false, error: "Komut tahtaya ulaştı ancak tahta cevap vermedi. Tahta sayfasını Ctrl+F5 ile yenileyip QR kodu tekrar okutun." });
+      }
+      reply(responses && responses[0] ? responses[0] : { ok: false, error: "Tahtadan geçerli yanıt alınamadı." });
+    });
   });
 
   socket.on("disconnect", () => {
     for (const [code, r] of rooms) {
       if (r.boardSocket === socket.id) {
         rooms.delete(code);
+      } else if (r.phoneSockets) {
+        r.phoneSockets.delete(socket.id);
       }
     }
   });
